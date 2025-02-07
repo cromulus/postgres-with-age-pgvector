@@ -1,5 +1,5 @@
 # Use PostgreSQL 16 – the maximum version supported by Apache AGE
-FROM postgres:16
+FROM postgres:16-bookworm
 
 # Install required packages for building extensions, including ca-certificates
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     flex \
     bison \
+    golang \
     postgresql-server-dev-16 \
  && rm -rf /var/lib/apt/lists/*
 
@@ -30,6 +31,7 @@ COPY init-pgvector.sql /docker-entrypoint-initdb.d/init-pgvector.sql
 
 # Add an init script to set 'age' as a shared preload library.
 # This script will run when a new database is initialized.
+
 COPY init-age.sh /docker-entrypoint-initdb.d/init-age.sh
 RUN chmod +x /docker-entrypoint-initdb.d/init-age.sh
-
+USER postgres
