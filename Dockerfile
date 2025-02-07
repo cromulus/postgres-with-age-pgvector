@@ -30,7 +30,7 @@ RUN git clone https://github.com/apache/age.git /tmp/age && \
     rm -rf /tmp/age
 
 
-COPY init-pgvector.sql /docker-entrypoint-initdb.d/init-pgvector.sql
+COPY init-extensions.sql /docker-entrypoint-initdb.d/init-extensions.sql
 
 # Add an init script to set 'age' as a shared preload library.
 # This script will run when a new database is initialized.
