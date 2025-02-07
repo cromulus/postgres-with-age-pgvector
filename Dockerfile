@@ -1,16 +1,19 @@
 # Use PostgreSQL 16 – the maximum version supported by Apache AGE
 FROM postgres:16-bookworm
 
-# Install required packages for building extensions, including ca-certificates
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    build-essential \
-    git \
-    flex \
-    bison \
-    golang \
-    postgresql-server-dev-16 \
- && rm -rf /var/lib/apt/lists/*
+
+# Add Debian Bookworm backports repository to install golang-1.22-go
+RUN echo "deb http://deb.debian.org/debian bookworm-backports main" > /etc/apt/sources.list.d/backports.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        build-essential \
+        git \
+        golang-1.22-go \
+        flex \
+        bison \
+        postgresql-server-dev-16 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Build and install the pg_vector extension
 RUN git clone https://github.com/pgvector/pgvector.git /tmp/pgvector && \
