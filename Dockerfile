@@ -37,4 +37,3 @@ COPY init-pgvector.sql /docker-entrypoint-initdb.d/init-pgvector.sql
 
 COPY init-age.sh /docker-entrypoint-initdb.d/init-age.sh
 RUN chmod +x /docker-entrypoint-initdb.d/init-age.sh
-USER postgres
